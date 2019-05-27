@@ -470,11 +470,13 @@ var AppComponent = /** @class */ (function () {
         this._authService = _authService;
         this._router = _router;
         this.title = 'PPM- Product Project Management';
+        console.log("poop");
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log("authservice ngOnIt");
         this._authService.getProfile().subscribe(function (profile) {
-            console.log(profile.user);
+            console.log("user logged in?", profile.user);
             _this.user = profile.user;
             var email = _this.user.email;
             var obs = _this._authService.getOrdersByEmail(email);
@@ -482,14 +484,20 @@ var AppComponent = /** @class */ (function () {
                 _this.orders = orders;
             });
             // Should rap this up in an if statement...so if the user doesn't log in 
-            pendo.initialize({
-                visitor: {
-                    id: _this.user._id,
-                },
-                account: {
-                    Admin: _this.user.isAdmin,
-                }
-            });
+            console.log("about to pendo.ini");
+            if (_this.user) {
+                pendo.initialize({
+                    visitor: {
+                        id: _this.user._id,
+                    },
+                    account: {
+                        Admin: _this.user.isAdmin,
+                    }
+                });
+            }
+            else {
+                console.log("skipping pendo ini");
+            }
         }, function (err) {
             console.log(err);
             return false;
@@ -3265,7 +3273,6 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-// declare var pendo: any;
 var UserLoginComponent = /** @class */ (function () {
     function UserLoginComponent(_router, _validateService, _authService, _ngFlashMessageService) {
         this._router = _router;
@@ -3288,10 +3295,28 @@ var UserLoginComponent = /** @class */ (function () {
                     messages: ["you are now logged in!"],
                     type: 'success'
                 });
+                console.log('data.user', data.user);
+                pendo.initialize({
+                    visitor: {
+                        id: data.user.id // Required if user is logged in
+                        // email:        // Optional
+                        // role:         // Optional
+                        // You can add any additional visitor level key-values here,
+                        // as long as it's not one of the above reserved names.
+                    },
+                    account: {
+                    // Admin:           data.user,// Highly recommended
+                    // name:         // Optional
+                    // planLevel:    // Optional
+                    // planPrice:    // Optional
+                    // creationDate: // Optional
+                    // You can add any additional account level key-values here,
+                    // as long as it's not one of the above reserved names.
+                    }
+                });
                 _this._authService.loggedIn();
                 var test = _this._authService.loggedIn();
-                console.log("test", test);
-                _this._router.navigate(['dashboard']);
+                console.log("user logged in", test);
                 //     pendo.initialize({
                 //     visitor: {
                 //         id:              data.user._id,  // Required if user is logged in
@@ -3310,6 +3335,7 @@ var UserLoginComponent = /** @class */ (function () {
                 //         // as long as it's not one of the above reserved names.
                 //     }
                 // });
+                _this._router.navigate(['dashboard']);
             }
             else {
                 _this._ngFlashMessageService.showFlashMessage({
@@ -3746,7 +3772,6 @@ var AuthService = /** @class */ (function () {
         this.authToken = token;
         console.log(this.authToken);
         this.user = user;
-        console.log("pendo_ini");
         //   this.pendo.initialize({
         //     visitor: {
         //         id:              this.authToken.token,  // Required if user is logged in
@@ -3768,8 +3793,8 @@ var AuthService = /** @class */ (function () {
     };
     AuthService.prototype.loadToken = function () {
         var token = localStorage.getItem("id_token");
+        console.log(token);
         this.authToken = token;
-        console.log(localStorage.token);
         //   pendo.initialize({
         //     visitor: {
         //         id:              this.authToken.token,  // Required if user is logged in

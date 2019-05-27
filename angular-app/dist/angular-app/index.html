@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <base href="/">
   <script>
+      console.log("RUNNING PENDO SCRIPT");
       (function(apiKey){
           (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=[];
           v=['initialize','identify','updateOptions','pageLoad'];for(w=0,x=v.length;w<x;++w)(function(m){
@@ -17,8 +18,8 @@
       
               // Call this whenever information about your visitors becomes available
               // Please use Strings, Numbers, or Bools for value types.
-  
-      })('5c1e641a-3301-41c0-4712-1772e9fa9fb9');
+      console.log("hitting the api key", apiKey);  
+      })('0ed5f48c-57a7-489a-4683-e83ef50e9f0e');
       </script>
 
   <script src="https://checkout.stripe.com/checkout.js"></script>

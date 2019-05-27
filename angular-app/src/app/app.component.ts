@@ -28,10 +28,11 @@ export class AppComponent implements OnInit {
     ) {console.log("poop")}
   
     ngOnInit() {
-      console.log("ngonit");
-      this._authService.getProfile().subscribe(
+      console.log("authservice ngOnIt");
+
+        this._authService.getProfile().subscribe(
         profile => {
-          console.log(profile.user);
+          console.log("user logged in?", profile.user);
           this.user = profile.user;
           let email = this.user.email;
           let obs = this._authService.getOrdersByEmail(email);
@@ -39,8 +40,9 @@ export class AppComponent implements OnInit {
             this.orders = orders;
           });
           // Should rap this up in an if statement...so if the user doesn't log in 
-
-          pendo.initialize({
+          console.log("about to pendo.ini")
+          if(this.user){
+            pendo.initialize({
             visitor: {
                 id:              this.user._id,  // Required if user is logged in
                 // email:        // Optional
@@ -60,8 +62,11 @@ export class AppComponent implements OnInit {
                 // You can add any additional account level key-values here,
                 // as long as it's not one of the above reserved names.
             }
+            
         });
-        },
+      }else{
+        console.log("skipping pendo ini");
+        }},
         err => {
           console.log(err);
           return false;

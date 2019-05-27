@@ -4,7 +4,7 @@ import { NgFlashMessageService } from 'ng-flash-messages';
 import { AuthService } from '../../services/auth.service';
 import { ValidateService } from '../../services/validate.service';
 import { ProductService } from '../../services/product.service';
-// declare var pendo: any;
+declare var pendo: any;
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -35,33 +35,56 @@ export class UserLoginComponent implements OnInit {
           messages: ["you are now logged in!"],
           type: 'success'
         });
+
+        console.log('data.user', data.user);
+        pendo.initialize({
+          visitor: {
+              id:              data.user.id  // Required if user is logged in
+              // email:        // Optional
+              // role:         // Optional
+
+              // You can add any additional visitor level key-values here,
+              // as long as it's not one of the above reserved names.
+          },
+
+          account: {
+              // Admin:           data.user,// Highly recommended
+              // name:         // Optional
+              // planLevel:    // Optional
+              // planPrice:    // Optional
+              // creationDate: // Optional
+
+              // You can add any additional account level key-values here,
+              // as long as it's not one of the above reserved names.
+          }
+      });
         this._authService.loggedIn();
         var test = this._authService.loggedIn();
-        console.log("test", test);
+        console.log("user logged in", test);
+    //     pendo.initialize({
+    //     visitor: {
+    //         id:              data.user._id,  // Required if user is logged in
+    //         // email:        // Optional
+    //         // role:         // Optional
+
+    //         // You can add any additional visitor level key-values here,
+    //         // as long as it's not one of the above reserved names.
+    //     },
+
+    //     account: {
+    //         id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
+    //         // name:         // Optional
+    //         // planLevel:    // Optional
+    //         // planPrice:    // Optional
+    //         // creationDate: // Optional
+
+    //         // You can add any additional account level key-values here,
+    //         // as long as it's not one of the above reserved names.
+    //     }
+    // });
         this._router.navigate(['dashboard']);
         
 
-      //     pendo.initialize({
-      //     visitor: {
-      //         id:              data.user._id,  // Required if user is logged in
-      //         // email:        // Optional
-      //         // role:         // Optional
-
-      //         // You can add any additional visitor level key-values here,
-      //         // as long as it's not one of the above reserved names.
-      //     },
-
-      //     account: {
-      //         id:           'ACCOUNT-UNIQUE-ID' // Highly recommended
-      //         // name:         // Optional
-      //         // planLevel:    // Optional
-      //         // planPrice:    // Optional
-      //         // creationDate: // Optional
-
-      //         // You can add any additional account level key-values here,
-      //         // as long as it's not one of the above reserved names.
-      //     }
-      // });
         
       } else {
         this._ngFlashMessageService.showFlashMessage({

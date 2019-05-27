@@ -50,7 +50,6 @@ export class AuthService {
     this.authToken = token;
     console.log(this.authToken)
     this.user = user;
-    console.log("pendo_ini")
   //   this.pendo.initialize({
   //     visitor: {
   //         id:              this.authToken.token,  // Required if user is logged in
@@ -76,8 +75,8 @@ export class AuthService {
 
   loadToken() {
     const token = localStorage.getItem("id_token");
+    console.log(token);
     this.authToken = token;
-    console.log(localStorage.token);
   //   pendo.initialize({
   //     visitor: {
   //         id:              this.authToken.token,  // Required if user is logged in
